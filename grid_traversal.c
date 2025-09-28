@@ -61,6 +61,15 @@ void free_grid(Grid *g) {
     free(g);
 }
 
+// Print grid: '.' free, '#' blocked
+void print_grid(const Grid *g) {
+    if (!g) return;
+    for (int r = 0; r < g->rows; r++) {
+        for (int c = 0; c < g->cols; c++) putchar(g->blocked[r][c] ? '#' : '.');
+        putchar('\n');
+    }
+}
+
 // Solve the path planning problem: find a path covering as many unique free cells as possible
 // under the movement limit. Uses a greedy heuristic: always move to an unvisited neighbor if possible,
 // otherwise move to a neighbor that leads towards unvisited cells.
@@ -218,6 +227,7 @@ int main() {
         Grid *g1 = create_grid(N, M, 0, blocked_cells1);
         printf("Test 1 (%dx%d, no blocks):\n", N, M);
         solve_path(g1, 1);
+        print_grid(g1);
         free_grid(g1);
         printf("\n");
     }
@@ -228,6 +238,7 @@ int main() {
         Grid *g2 = create_grid(N, M, 4, blocked_cells2);
         printf("Test 2 (%dx%d, all blocked):\n", N, M);
         solve_path(g2, 10);
+        print_grid(g2);
         free_grid(g2);
         printf("\n");
     }
@@ -238,6 +249,7 @@ int main() {
         Grid *g3 = create_grid(N, M, 3, blocked_cells3);
         printf("Test 3 (%dx%d, one path):\n", N, M);
         solve_path(g3, 5);
+        print_grid(g3);
         free_grid(g3);
         printf("\n");
     }
@@ -248,6 +260,7 @@ int main() {
         Grid *g4 = create_grid(N, M, 0, blocked_cells4);
         printf("Test 4 (%dx%d, no blocks):\n", N, M);
         solve_path(g4, 30);
+        print_grid(g4);
         free_grid(g4);
         printf("\n");
     }
@@ -255,11 +268,12 @@ int main() {
     srand((unsigned) time(NULL)); // Seed RNG once
     // Test 5: Randomly generated grid (10x10 with 20 random blocked cells)
     {
-        const int N = 10, M = 10;
+        const int N = 100, M = 10;
         Grid *g5 = create_grid(N, M, 0, NULL);
-        generate_blocked(g5, 20);
+        generate_blocked(g5, 200);
         printf("Test 5 (%dx%d, random blocks):\n", N, M);
         solve_path(g5, 50);
+        print_grid(g5);
         free_grid(g5);
         printf("\n");
     }

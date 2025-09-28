@@ -1,8 +1,6 @@
-project('is-wireless', 'c',
+project('grid-traversal', 'c',
   version : '0.1',
   default_options : ['warning_level=3'])
 
-exe = executable('is-wireless', 'is_wireless.c',
+exe = executable('grid-traversal', 'grid_traversal.c',
   install : true)
-
-test('basic', exe)
